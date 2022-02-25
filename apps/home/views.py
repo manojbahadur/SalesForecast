@@ -1,7 +1,4 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 from django import template
 from django.contrib.auth.decorators import login_required
@@ -42,3 +39,9 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+def landing(self):
+
+    html_template = loader.get_template('home/landing.html')
+    return HttpResponse(html_template.render())
