@@ -13,5 +13,6 @@ urlpatterns = [
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
+    path('pie-chart/', views.pie_chart, name='pie-chart'),
 
 ]
