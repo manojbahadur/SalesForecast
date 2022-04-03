@@ -5,8 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-from flask import render_template
-
+from django.shortcuts import render
 
 @login_required(login_url="/login/")
 def index(request):
@@ -47,14 +46,12 @@ def landing(self):
     html_template = loader.get_template('home/landing.html')
     return HttpResponse(html_template.render())
 
-from django.shortcuts import render
-from models import City
 
 def pie_chart(request):
     labels = ["a","b","c","d","e"]
     data = [100,200,120,230,123]
 
-    return render(request, 'pie_chart.html', {
+    return render(request, 'index.html', {
         'labels': labels,
         'data': data,
     })
