@@ -13,6 +13,6 @@ urlpatterns = [
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
-    path('', views.pie_chart, name='pie-chart'),
-
+    #path('', views.pie_chart, name='pie-chart'),
+    path('', views.population_chart, name='population-chart')
 ]
