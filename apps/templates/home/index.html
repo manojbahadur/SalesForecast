@@ -378,10 +378,6 @@
       </div>
     </div>
 
-{% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
@@ -392,9 +388,12 @@
     $.ajax({
       url: $populationChart.data("url"),
       success: function (data) {
-
+        let a = data.labels
+        let b = data.data
         var ctx = $populationChart[0].getContext("2d");
-
+        console.log("HEllo")
+        console.log(a);
+        console.log(b);
         new Chart(ctx, {
           type: 'bar',
           data: {
@@ -420,6 +419,11 @@
     });
   });
 </script>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
 
   <script>
     $(document).ready(function() {

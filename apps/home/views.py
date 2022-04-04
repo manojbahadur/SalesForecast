@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+from aiohttp import request
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -57,9 +58,10 @@ def pie_chart(request):
         'data': data,
     })'''
 
+@login_required(login_url="/login/")
 def population_chart(request):
     labels = ["a","b","c","d","e","f","g","h"]
-    data = [100,200,120,230,123,100,123,235]
+    data1 = [100,200,120,230,123,100,123,235]
 
     ''' queryset = City.objects.values('country__name').annotate(country_population=Sum('population')).order_by('-country_population')
     for entry in queryset:
@@ -67,6 +69,6 @@ def population_chart(request):
         data.append(entry['country_population'])'''
     
     return JsonResponse(data={
-        'labels': labels,
-        'data': data,
+        'labels': ["a","b","c","d","e","f","g","h"],
+        'data': [100,200,120,230,123,100,123,235],
     })
