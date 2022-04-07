@@ -49,27 +49,12 @@ def landing(self):
     html_template = loader.get_template('home/landing.html')
     return HttpResponse(html_template.render())
 
-'''
-def pie_chart(request):
-    labels = ["a","b","c","d","e"]
-    data = [100,200,120,230,123]
-
-    return render(request, 'index.html', {
-        'labels': labels,
-        'data': data,
-    })'''
-
 
 def population_chart(request):
     labels = ["a","b","c","d","e","f","g","h"]
-    data1 = [100,200,120,230,123,100,123,235]
-
-    ''' queryset = City.objects.values('country__name').annotate(country_population=Sum('population')).order_by('-country_population')
-    for entry in queryset:
-        labels.append(entry['country__name'])
-        data.append(entry['country_population'])'''
+    data = [100,200,120,230,123,100,123,235]
     context = {
-        'labels': ["a","b","c","d","e","f","g","h"],
-        'data': [100,200,120,230,123,100,123,235],
+        "labels": labels,
+        "data": data,
     }
-    return render(request, 'home/index.html', context)
+    return render(request, "home/index.html", context)
