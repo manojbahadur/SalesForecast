@@ -10,7 +10,7 @@ urlpatterns = [
     path('landing', views.landing),
 
     # Matches any html file
-    re_path(r'^.*\.*', views.pages, name='pages'),
+    path(r'^.*\.*', views.pages, name='pages'),
     #path('', views.pie_chart, name='pie-chart'),
-    path('', views.population_chart, name='population_chart') 
+    re_path(r'^.*\.*', views.population_chart, name='population_chart')
 ]

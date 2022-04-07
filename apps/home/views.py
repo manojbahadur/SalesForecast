@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-from aiohttp import request
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -10,9 +9,11 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from json import dumps
 
+
 @login_required(login_url="/login/")
 def index(request):
-    context = {'segment': 'index'}
+    context = {'segment': 'index', 'labels': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+               'data': [100, 200, 120, 230, 123, 100, 123, 235]}
 
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
@@ -20,7 +21,11 @@ def index(request):
 
 @login_required(login_url="/login/")
 def pages(request):
+    labels = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    data = [100, 200, 120, 230, 123, 100, 123, 235]
     context = {}
+    val = {"labels": labels,
+           "data": data}
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
@@ -30,7 +35,6 @@ def pages(request):
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
-
         html_template = loader.get_template('home/' + load_template)
         return HttpResponse(html_template.render(context, request))
 
@@ -45,16 +49,27 @@ def pages(request):
 
 
 def landing(self):
-
     html_template = loader.get_template('home/landing.html')
     return HttpResponse(html_template.render())
 
 
-def population_chart(request):
-    labels = ["a","b","c","d","e","f","g","h"]
-    data = [100,200,120,230,123,100,123,235]
+def test(self):
+    labels = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    data = [100, 200, 120, 230, 123, 100, 123, 235]
     context = {
         "labels": labels,
         "data": data,
     }
-    return render(request, "home/index.html", context)
+    html_template = loader.get_template('home/test.html')
+    return HttpResponse(html_template.render(context))
+
+
+def population_chart():
+    labels = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    data = [100, 200, 120, 230, 123, 100, 123, 235]
+    context = {
+        "labels": labels,
+        "data": data,
+    }
+
+    return render(context, 'home/index.html')
