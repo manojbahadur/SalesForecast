@@ -52,18 +52,6 @@ def landing(self):
     html_template = loader.get_template('home/landing.html')
     return HttpResponse(html_template.render())
 
-
-def test(self):
-    labels = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    data = [100, 200, 120, 230, 123, 100, 123, 235]
-    context = {
-        "labels": labels,
-        "data": data,
-    }
-    html_template = loader.get_template('home/test.html')
-    return HttpResponse(html_template.render(context))
-
-
 def population_chart():
     labels = ["a", "b", "c", "d", "e", "f", "g", "h"]
     data = [100, 200, 120, 230, 123, 100, 123, 235]
