@@ -6,14 +6,22 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.shortcuts import render
+import pandas as pd
 from django.http import JsonResponse
 from json import dumps
 
 
 @login_required(login_url="/login/")
 def index(request):
-    context = {'segment': 'index', 'labels': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-               'data': [100, 200, 120, 230, 123, 100, 123, 235]}
+    store = pd.read_csv("C:/Users/manoj/OneDrive/Documents/GitHub/hope/apps/templates/csv/stores.csv")
+    gk = store.groupby('Type').mean()
+
+    mylabels = ["A", "B", "C"]
+    context = {
+        'segment': 'index',
+        'labels': mylabels,
+        'data': [177247.727273,101190.705882,40541.666667]
+        }
 
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
