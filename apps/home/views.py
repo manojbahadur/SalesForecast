@@ -5,29 +5,25 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-from django.shortcuts import render
 import pandas as pd
-from django.http import JsonResponse
-from json import dumps
-
+import numpy as np
+import range
 
 @login_required(login_url="/login/")
 def index(request):
-    #store = pd.read_csv(os.path.join(os.path.dirname(__file__),".../templates"),'r')
-    #os.chdir("../templates")
+
     path=os.getcwd()
     
-    store = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/stores.csv"),'r')
-    #os.chdir('../')
-    print(store)
-    #store = pd.read_csv(os.path.join(os.path.abspath(os.path.join(os.chdir('../..'), "../..")),"templates/"),'r')
-    gk = store.groupby("Type").mean()
-
-    mylabels = ["A", "B", "C"]
+    train_data = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
+    #train_data = pd.read_csv('train.csv')
+    total_sales_for_each_store = train_data.groupby('Store')['Weekly_Sales'].sum()
+    total_sales_for_each_store_array = np.array(total_sales_for_each_store)
+    print(total_sales_for_each_store_array)
+    mylabels = list(range(1,46))
     context = {
         'segment': 'index',
         'labels': mylabels,
-        'data': [177247.727273,101190.705882,40541.666667]
+        'data': total_sales_for_each_store_array
         }
 
     html_template = loader.get_template('home/index.html')
@@ -44,9 +40,7 @@ def pages(request):
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
-
         load_template = request.path.split('/')[-1]
-
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
