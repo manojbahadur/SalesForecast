@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-
+import os
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,8 +13,15 @@ from json import dumps
 
 @login_required(login_url="/login/")
 def index(request):
-    store = pd.read_csv("C:/Users/manoj/OneDrive/Documents/GitHub/hope/apps/templates/csv/stores.csv")
-    gk = store.groupby('Type').mean()
+    #store = pd.read_csv(os.path.join(os.path.dirname(__file__),".../templates"),'r')
+    #os.chdir("../templates")
+    path=os.getcwd()
+    
+    store = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/stores.csv"),'r')
+    #os.chdir('../')
+    print(store)
+    #store = pd.read_csv(os.path.join(os.path.abspath(os.path.join(os.chdir('../..'), "../..")),"templates/"),'r')
+    gk = store.groupby("Type").mean()
 
     mylabels = ["A", "B", "C"]
     context = {
