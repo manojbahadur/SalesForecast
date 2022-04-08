@@ -46,7 +46,7 @@ def index(request):
         
         
     # Bar chart for weekly sales   
-    data = pd.read_csv('features.csv') 
+    #data = pd.read_csv('features.csv') 
     dataset = features_df.merge(stores_df, how='inner', on='Store')
     dataset['Week'] = dataset.Date.dt.week # for the week data
     dataset['Year'] = dataset.Date.dt.year # for the year data
@@ -61,8 +61,12 @@ def index(request):
     weekly_sales_2010 = train_merge[train_merge['Year']==2010]['Weekly_Sales'].groupby(train_merge['Week']).mean()
     weekly_sales_2012 = train_merge[train_merge['Year']==2012]['Weekly_Sales'].groupby(train_merge['Week']).mean()
     weekly_sales_2011 = train_merge[train_merge['Year']==2011]['Weekly_Sales'].groupby(train_merge['Week']).mean()
-    print(weekly_sales_2012.index)
-
+    total_weekly_sales = weekly_sales_2010+weekly_sales_2011+weekly_sales_2012
+    print(weekly_sales_2010)
+    print(weekly_sales_2011)
+    print(weekly_sales_2012)
+    print(total_weekly_sales)
+    #yearly_sales_pie_chart = features_df.groupby("Year")[["Weekly_Sales"]].sum()
     context = {
         'segment': 'index',
         'total_sales_labels': mylabels,
@@ -76,7 +80,8 @@ def index(request):
         "weekly_sales_2012": list(weekly_sales_2012),
         "weekly_sales_labels_2010": list(weekly_sales_2010.index),
         "weekly_sales_labels_2011": list(weekly_sales_2011.index),
-        "weekly_sales_labels_2012": list(weekly_sales_2012.index)  
+        "weekly_sales_labels_2012": list(weekly_sales_2012.index),
+        "total_weekly_sales": list(total_weekly_sales)  
         }
 
     html_template = loader.get_template('home/index.html')
