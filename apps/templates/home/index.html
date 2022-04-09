@@ -62,7 +62,7 @@
           </div>
           <div class="card-body">
             <div class="container">
-              <canvas id="holiday_pie_chart" width="230" height="300"></canvas>
+              <canvas id="holiday_bar_chart" width="230" height="300"></canvas>
             </div>
           </div>
         </div>
@@ -209,24 +209,7 @@
 	</script>
     <script type="text/javascript">
 
-        let ctx4 = document.getElementById("pie_chart1").getContext('2d');
-        let pie_chart1 = new Chart(ctx4, {
-            type: 'pie',
-            data: {
-                labels: ["A","B","C"],
-                datasets: [{
-                label: "Sales",
-                backgroundColor: ["#3e95cd", "#A70EC2","#3cba9f"],
-                data: {{store_type_data|safe}}
-                }]
-            },
-            options: {
-                title: {
-                display: true,
-                text: 'Yearly sales by Store Type'
-                }
-            }
-        });
+        
         
         let ctx5 = document.getElementById("pie_chart2").getContext('2d');
         let pie_chart2 = new Chart(ctx5, {
@@ -247,8 +230,8 @@
             }
         });
 
-        let ctx7 = document.getElementById("holiday_pie_chart").getContext('2d');
-        let holiday_pie_chart = new Chart(ctx7, {
+        let ctx7 = document.getElementById("holiday_bar_chart").getContext('2d');
+        let holiday_bar_chart = new Chart(ctx7, {
                 type: 'bar',
                 data: {
                 labels: [2010,2011,2012],
@@ -270,7 +253,7 @@
                     },
                     {
                       label: "Christmas Day",
-                      backgroundColor: "#3e95cd",
+                      backgroundColor: "#14de57",
                       data: {{ christmas_day|safe }}
                   },
                 ]
@@ -314,7 +297,24 @@
             }
           });
           
-
+          let ctx4 = document.getElementById("pie_chart1").getContext('2d');
+          let pie_chart1 = new Chart(ctx4, {
+              type: 'pie',
+              data: {
+                  labels: ["A","B","C"],
+                  datasets: [{
+                  label: "Sales",
+                  backgroundColor: ["#3e95cd", "#A70EC2","#3cba9f"],
+                  data: {{store_type_data|safe}}
+                  }]
+              },
+              options: {
+                  title: {
+                  display: true,
+                  text: 'Yearly sales by Store Type'
+                  }
+              }
+          });
     </script>
 
 {% endblock javascripts %}
