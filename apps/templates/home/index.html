@@ -8,7 +8,6 @@
 {% block content %}
   
     <div class="row">
-
       <div class="col-12">
         <div class="card card-chart">
           <div class="card-header ">
@@ -43,40 +42,39 @@
       </div>
 
     </div>
-    <div class="row" style="margin:0 auto;" >
-      <div class="col-lg-5">
+    <div class="row" >
+      <div class="col-sm-4">
         <div class="card card-chart">
           <div class="card-header">
-            <h5 class="card-category" >Store Type</h5>
+            <h4 class="card-title" >Store Type</h4>
           </div>
           <div class="card-body">
-            <div class="container">
-              <canvas id="pie_chart1"  width="400" height="400" ></canvas>
+            <div class="container ">
+              <canvas id="pie_chart1"  width="230" height="300" ></canvas>
             </div>
           </div>
         </div>
       </div>
-      <!--'''<div class="col-lg-5">
+      <div class="col-sm-4">
         <div class="card card-chart">
           <div class="card-header">
-            <h5 class="card-category">Holiday Sales</h5>
-            <h3 class="card-title"></h3>
+            <h4 class="card-title">Sales During Holidays</h4>
           </div>
           <div class="card-body">
             <div class="container">
-              <canvas id=""  width="400" height="400"></canvas>
+              <canvas id="holiday_pie_chart" width="230" height="300"></canvas>
             </div>
           </div>
         </div>
-      </div>''' -->
-      <div class="col-lg-5">
+      </div>
+      <div class="col-sm-4">
         <div class="card card-chart">
           <div class="card-header" >
-            <h5 class="card-category">Yearly Sales</h5>
+            <h4 class="card-title">Yearly Sales</h4>
           </div>
           <div class="card-body">
             <div class="container">
-              <canvas id="pie_chart2"  width="400" height="400"></canvas>
+              <canvas id="pie_chart2"  width="230" height="300"></canvas>
             </div>
           </div>
         </div>
@@ -84,6 +82,9 @@
     </div>
     <div class="row">
         <div class="card card-tasks">
+          <div class="card-header" >
+            <h4 class="card-title">Weekly Sales</h4>
+          </div>
             <div class="container">
                 <canvas id="multi_line_chart"  width="850" height="350"></canvas>
             </div>
@@ -112,7 +113,6 @@
       };
    
      function line_chart_2010(){
-    
         let ctx1 = document.getElementById("line_chart").getContext('2d');
           let line_chart = new Chart(ctx1,{
           type : 'line',
@@ -125,10 +125,7 @@
                         yAxes: [{
                                 display: true,
                                 ticks: {
-                                    beginAtZero: true,
-                                    steps: 20000000,
-                                    stepValue: 20000000,
-                                    max: 120000000
+                                    beginAtZero: true
                                 }
                             }]
                     }
@@ -141,7 +138,7 @@
                   label : "Total sales",
                   fill : "true",
                   borderColor : ['rgb(167,14,194)']
-                  
+                  //tension: 0.1
                 }],
               },
         });
@@ -159,10 +156,7 @@
                     yAxes: [{
                             display: true,
                             ticks: {
-                                beginAtZero: true,
-                                steps: 20000000,
-                                stepValue: 20000000,
-                                max: 120000000
+                                beginAtZero: true
                             }
                         }]
                 }
@@ -179,8 +173,7 @@
               }],
             },
       });
-
-      }
+    }
       function line_chart_2012(){
         let ctx3 = document.getElementById("line_chart").getContext('2d');
         let line_chart = new Chart(ctx3,{
@@ -194,10 +187,7 @@
                     yAxes: [{
                             display: true,
                             ticks: {
-                                beginAtZero: true,
-                                steps: 20000000,
-                                stepValue: 20000000,
-                                max: 120000000
+                                beginAtZero: true
                             }
                         }]
                 }
@@ -214,8 +204,8 @@
               }],
             },
       });
-
     }
+
 	</script>
     <script type="text/javascript">
 
@@ -256,7 +246,43 @@
                 }
             }
         });
-        console.log({{ weekly_sales_2010|safe }})
+
+        let ctx7 = document.getElementById("holiday_pie_chart").getContext('2d');
+        let holiday_pie_chart = new Chart(ctx7, {
+                type: 'bar',
+                data: {
+                labels: [2010,2011,2012],
+                datasets: [
+                    {
+                        label: "Super Bowl",
+                        backgroundColor: "#3e95cd",
+                        data: {{ super_bowl|safe }}
+                    }, 
+                    {
+                        label: "Thanks Giving",
+                        backgroundColor: "#8e5ea2",
+                        data: {{ thanks_giving|safe }}
+                    },
+                    {
+                        label: "Labour Day",
+                        backgroundColor: "#3cba9f",
+                        data: {{ labour_day|safe }}
+                    },
+                    {
+                      label: "Christmas Day",
+                      backgroundColor: "#3e95cd",
+                      data: {{ christmas_day|safe }}
+                  },
+                ]
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: 'Weekly Sales'
+                }
+            }
+          });
+        
         let ctx6 = document.getElementById("multi_line_chart").getContext('2d');
         let multi_line_chart = new Chart(ctx6, {
                 type: 'bar',
@@ -287,6 +313,7 @@
                 }
             }
           });
+          
 
     </script>
 
