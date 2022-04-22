@@ -21,6 +21,12 @@
               <p>Dashboard</p>
             </a>
           </li>
+          <li class="{% if 'date_range' in segment %} active {% endif %}">
+            <a href="/range.html">
+              <i class="tim-icons icon-calendar-60"></i>
+              <p>Date Range</p>
+            </a>
+          </li> <!--
           <li class="{% if 'icons' in segment %} active {% endif %}">
             <a href="/ui-icons.html">
               <i class="tim-icons icon-atom"></i>
@@ -32,7 +38,7 @@
               <i class="tim-icons icon-pin"></i>
               <p>Maps</p>
             </a>
-          </li>
+          </li>-->
           <li class="{% if 'notifications' in segment %} active {% endif %}">
             <a href="/ui-notifications.html">
               <i class="tim-icons icon-bell-55"></i>
@@ -50,7 +56,7 @@
               <i class="tim-icons icon-puzzle-10"></i>
               <p>Table List</p>
             </a>
-          </li>
+          </li><!--
           <li class="{% if 'typography' in segment %} active {% endif %}">
             <a href="/ui-typography.html">
               <i class="tim-icons icon-align-center"></i>
@@ -62,7 +68,7 @@
               <i class="tim-icons icon-world"></i>
               <p>RTL Support</p>
             </a>
-          </li>
+          </li>-->
           <li>
             <a href="{% url 'logout' %}" >
               <i class="tim-icons icon-button-power"></i>
@@ -72,7 +78,7 @@
           {% else %}
           <li class="active">
               <i class="tim-icons icon-spaceship"></i>
-              <p>Log in to view SideBar</p>
+              <p>Don't know</p>
             </a>
           </li>   
           {% endif %}

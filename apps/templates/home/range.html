@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1", charset="UTF-8">
+    <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
+	<title>Sales Forecasting Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="/static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link href="/static/assets/css/nucleo-icons.css" rel="stylesheet" />
+	<style type="text/css">
+		body {
+  			background: #222;
+  			font-family: Avenir, Helvetica, sans-serif;
+		}
+		.heading{
+			position: fixed;
+			width :100%;
+            font-style: normal;
+            padding: 5px 450px 450px;
+            font-size: 25px;
+			color: white;
+            top: 30px;
+            left: 95px;
+            text-align: center;
+		}
+    </style>
+</head>
+<body>
+
+<div class="heading">
+    <h3>Date Range</h3>
+    <br>
+    <h4>
+    <form>
+
+        <label>Enter the Date Range for the forecast</label><br>
+        <p>Date format is (yyyy/mm/dd-yyyy/mm/dd)</p><br>
+        <input type="text" id="id1" name="date_range">
+		<br><br>
+		<input onclick="button()" type="submit" class="btn btn-fill btn-primary btn-round">
+
+    </form>
+    </h4>
+</div>
+
+<div class="sidebar">
+    <div class="sidebar-wrapper">
+        <div class="logo">
+          <a target="_blank" rel="sponsored noopener noreferrer" class="simple-text logo-mini">
+            ML
+          </a>
+          <a target="_blank" rel="sponsored noopener noreferrer"
+              class="simple-text logo-normal">
+            Sales Forecast
+          </a>
+        </div>
+        <ul class="nav">
+            <li>
+              <a href="/">
+                <i class="tim-icons icon-chart-pie-36"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            <li class="active">
+              <a href="/range/">
+                <i class="tim-icons icon-calendar-60"></i>
+                <p>Date Range</p>
+              </a>
+            </li>
+            <li>
+            <a href="{% url 'logout' %}" >
+              <i class="tim-icons icon-button-power"></i>
+              <p>Logout</p>
+            </a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!--<div style="text-align: center;">
+    <form action = "" method = "get">
+        <label for="your_name">Your name: </label>
+        <input id="your_name" type="text" name="your_name">
+        <input type="submit" value="OK">
+    </form>
+
+</div>
+<div>
+    <div style="text-align: center;">
+        <a href="final.html"><button class="btn btn-fill btn-primary btn-round" style="top: 450px;left: 100px">Submit</button></a>
+    </div>
+</div>-->
+
+</body>
+</html>
