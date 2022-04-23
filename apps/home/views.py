@@ -50,8 +50,8 @@ def dataVisualization():
 
     # Load the data
     path=os.getcwd()
-    #train_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
-    features_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/features.csv"),delimiter=',')
+    train_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
+    features_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
     stores_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/stores.csv"),delimiter=',')
     #test_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/test.csv"),delimiter=',')
     features_df['Date'] =  pd.to_datetime(features_df['Date'])
@@ -80,7 +80,7 @@ def dataVisualization():
     dataset = features_df.merge(stores_df, how='inner', on='Store')
     dataset['Week'] = dataset.Date.dt.week # for the week data
     dataset['Year'] = dataset.Date.dt.year # for the year data
-    train_merge = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/features.csv"),delimiter=',')
+    train_merge = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
     train_merge['Date'] =  pd.to_datetime(train_merge['Date'])
     train_merge["Day"]= pd.DatetimeIndex(train_merge['Date']).day
     train_merge['Month'] = pd.DatetimeIndex(train_merge['Date']).month
@@ -95,21 +95,25 @@ def dataVisualization():
 
 
     #Sales for holiday bar chart
-    Super_Bowl =['12-2-2010', '11-2-2011', '10-2-2012']
-    Labour_Day =  ['10-9-2010', '9-9-2011', '7-9-2012']
-    Thanksgiving =  ['26-11-2010', '25-11-2011', '23-11-2012']
-    Christmas = ['31-12-2010', '30-12-2011', '28-12-2012']
 
-    Super_Bowl_df = pd.DataFrame(features_df.loc[features_df.Date.isin(Super_Bowl)].groupby('Year')['Weekly_Sales'].sum())
-    Thanksgiving_df = pd.DataFrame(features_df.loc[features_df.Date.isin(Thanksgiving)].groupby('Year')['Weekly_Sales'].sum())
-    Labour_Day_df = pd.DataFrame(features_df.loc[features_df.Date.isin(Labour_Day)].groupby('Year')['Weekly_Sales'].sum())
-    Christmas_df = pd.DataFrame(features_df.loc[features_df.Date.isin(Christmas)].groupby('Year')['Weekly_Sales'].sum())
+    train_df["Day"]= pd.DatetimeIndex(train_df['Date']).day
+    train_df['Month'] = pd.DatetimeIndex(train_df['Date']).month
+    train_df['Year'] = pd.DatetimeIndex(train_df['Date']).year
 
-    a = [Super_Bowl_df.values[0][0],Super_Bowl_df.values[1][0],Super_Bowl_df.values[2][0]]
-    b = [Thanksgiving_df.values[0][0],Thanksgiving_df.values[1][0],68042461.04]
-    c = [Labour_Day_df.values[0][0],Labour_Day_df.values[1][0],50042461.04]
-    d = [Christmas_df.values[0][0],Christmas_df.values[1][0],56042461.0423]
+    Super_Bowl =['2010-02-12', '2011-02-11', '2012-02-10']
+    Labour_Day =  ['2010-09-10', '2011-09-09', '2012-09-07']
+    Thanksgiving =  ['2010-11-26', '2011-11-25']
+    Christmas = ['2010-12-31', '2011-12-30']
 
+    Super_Bowl_df = pd.DataFrame(train_df.loc[train_df.Date.isin(Super_Bowl)].groupby('Year')['Weekly_Sales'].sum())
+    Thanksgiving_df = pd.DataFrame(train_df.loc[train_df.Date.isin(Thanksgiving)].groupby('Year')['Weekly_Sales'].sum())
+    Labour_Day_df = pd.DataFrame(train_df.loc[train_df.Date.isin(Labour_Day)].groupby('Year')['Weekly_Sales'].sum())
+    Christmas_df = pd.DataFrame(train_df.loc[train_df.Date.isin(Christmas)].groupby('Year')['Weekly_Sales'].sum())
+
+    a = Super_Bowl_df['Weekly_Sales'].tolist()
+    b = Thanksgiving_df['Weekly_Sales'].tolist()
+    c = Labour_Day_df['Weekly_Sales'].tolist()
+    d = Christmas_df['Weekly_Sales'].tolist()
 
     context = {
         'segment': 'index',
