@@ -136,3 +136,7 @@ def dataVisualization():
         }
     
     return context
+def range(self):
+
+    html_template = loader.get_template('home/range.html')
+    return HttpResponse(html_template.render())
