@@ -90,7 +90,6 @@
             </div>
         </div>
       </div>
-
     <div class="row">
         <div class=col-12>
             <div style="text-align: center;">
@@ -98,7 +97,6 @@
             </div>
         </div>
     </div>
-  </div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
@@ -139,7 +137,7 @@
                     }
               },
           data : {
-                labels : {{total_sales_labels|safe}},
+                labels : {{total_sales_labels_2010|safe}},
                 datasets :
                 [{
                   data :{{total_sales_data_2010|safe}},
@@ -201,7 +199,7 @@
                 }
             },
         data : {
-              labels : {{total_sales_labels|safe}},
+              labels : {{total_sales_labels_2012|safe}},
               datasets :
               [{
                 data :{{total_sales_data_2012|safe}},

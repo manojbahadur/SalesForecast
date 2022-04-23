@@ -53,7 +53,7 @@ def dataVisualization():
     train_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
     features_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/train.csv"),delimiter=',')
     stores_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/stores.csv"),delimiter=',')
-    #test_df = pd.read_csv(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/csv/test.csv"),delimiter=',')
+
     features_df['Date'] =  pd.to_datetime(features_df['Date'])
     features_df["Day"]= pd.DatetimeIndex(features_df['Date']).day
     features_df['Month'] = pd.DatetimeIndex(features_df['Date']).month
@@ -65,7 +65,7 @@ def dataVisualization():
     yearly_sales_2011 = features_df[(features_df['Date'] > '2011-01-01') & (features_df['Date'] < '2011-12-31')].groupby(['Year','Month'])['Weekly_Sales'].sum()
     yearly_sales_2012 = features_df[(features_df['Date'] > '2012-01-01') & (features_df['Date'] < '2012-12-31')].groupby(['Year','Month'])['Weekly_Sales'].sum()
     mylabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
-    
+
 
     # Pie chart for store type
     store_type_data = stores_df.groupby('Type').sum()
@@ -93,7 +93,6 @@ def dataVisualization():
     weekly_sales_2011 = train_merge[train_merge['Year']==2011]['Weekly_Sales'].groupby(train_merge['Week']).mean()
 
 
-
     #Sales for holiday bar chart
 
     train_df["Day"]= pd.DatetimeIndex(train_df['Date']).day
@@ -118,6 +117,8 @@ def dataVisualization():
     context = {
         'segment': 'index',
         'total_sales_labels': mylabels,
+        'total_sales_labels_2010': mylabels[1::],
+        'total_sales_labels_2012': mylabels[0:-2],
         'total_sales_data_2010': list(yearly_sales_2010),
         'total_sales_data_2011': list(yearly_sales_2011),
         'total_sales_data_2012': list(yearly_sales_2012),
@@ -136,7 +137,7 @@ def dataVisualization():
         }
     
     return context
-def range(self):
 
+def range(self):
     html_template = loader.get_template('home/range.html')
     return HttpResponse(html_template.render())
