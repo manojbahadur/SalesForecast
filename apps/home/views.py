@@ -1,6 +1,4 @@
-# -*- encoding: utf-8 -*-
 import os
-from datetime import datetime
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,7 +6,6 @@ from django.template import loader
 from django.urls import reverse
 from datetime import datetime
 import pandas as pd
-import numpy as np
 
 
 @login_required(login_url="/login/")
