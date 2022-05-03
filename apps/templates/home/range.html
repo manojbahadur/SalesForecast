@@ -34,8 +34,8 @@
     <h3>Date Range</h3>
     <br>
     <h4>
-    <form>
-
+    <form action="final.html" method="post">
+        {% csrf_token %}
         <label>Enter the Date Range for the forecast</label><br>
         <p>Date format is (dd/mm/yyyy)</p>
         <input type="date" id="id1" name="date_range">
@@ -49,7 +49,7 @@
         <p>(Type A=1, B=2, C=3)</p>
         <input id="id4" name="type">
 		<br><br>
-		<a href="final.html" <input onclick="button()" type="submit" class="btn btn-fill btn-primary btn-round">SUBMIT</a>
+		<input type="submit" onclick="handleSubmit()" class="btn btn-fill btn-primary btn-round">
 
     </form>
     </h4>
@@ -89,6 +89,23 @@
         </ul>
     </div>
 </div>
+
+<script type="text/javascript">
+    function handleSubmit () {
+    const date = document.getElementById('id1').value;
+    const store = document.getElementById('id2').value;
+    const department = document.getElementById('id3').value;
+    const storetype = document.getElementById('id4').value;
+
+
+    sessionStorage.setItem("Date", date);
+    sessionStorage.setItem("Store", store);
+    sessionStorage.setItem("Department", department);
+    sessionStorage.setItem("Store Type", storetype);
+
+    return;
+}
+</script>
 <!--<div style="text-align: center;">
     <form action = "" method = "get">
         <label for="your_name">Your name: </label>
