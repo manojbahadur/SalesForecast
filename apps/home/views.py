@@ -9,6 +9,8 @@ from django.urls import reverse
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import pickle
+from datetime import timedelta
 
 
 @login_required(login_url="/login/")
@@ -141,3 +143,66 @@ def dataVisualization():
 def range(self):
     html_template = loader.get_template('home/range.html')
     return HttpResponse(html_template.render())
+
+def process():
+
+    path=os.getcwd()
+    wmae_list = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/wmae_list.pkl")),'rb')
+    mean_vals = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/mean_vals.pkl")),'rb')
+    XGB = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/XGBRegressor.pkl")),'rb')
+    LR = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/LinearRegression.pkl")),'rb')
+    KNN = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/KNeighborsRegressor.pkl")),'rb')
+
+    df_1 = pd.DataFrame(mean_vals).transpose()
+
+    #TAKE USER INPUT HERE
+    user = {'Store': [1],
+            'Dept': [1],
+            'Type': [1],
+            'Date': ['2010-05-12'], }
+    df = pd.DataFrame(user)
+    df['Date'] = pd.to_datetime(df.Date, format='%Y-%m-%d')
+
+    def nearest_fri(df, date_column):
+        month_delta = 4
+        dayofweek = df[date_column].dt.dayofweek
+        if (int(dayofweek != month_delta)):
+            x = month_delta - dayofweek
+            # print("HI THIS IS X VAL",x[0])
+            y = x[0]
+            y = int(y)
+            y = abs(y)
+            # print(y)
+            if (int(dayofweek > month_delta)):
+                dayofweek - y
+                df["Date"] = df["Date"] - timedelta(days=y)
+            elif (int(dayofweek < month_delta)):
+                dayofweek + y
+                df["Date"] = df["Date"] + timedelta(days=y)
+
+        return df
+
+    df_test = nearest_fri(df, "Date")
+    df = df_test
+
+    def split_dates(df, date_column):
+        date_df = pd.DataFrame({"year": df[date_column].dt.year,
+                                "month": df[date_column].dt.month,
+                                "day": df[date_column].dt.day,
+                                "dayofyear": df[date_column].dt.dayofyear,
+                                "week": df[date_column].dt.week,
+                                "weekofyear": df[date_column].dt.weekofyear,
+                                "dayofweek": df[date_column].dt.dayofweek,
+                                "weekday": df[date_column].dt.weekday,
+                                "quarter": df[date_column].dt.quarter,
+                                })
+        df = df.drop(date_column, axis=1)
+        df = pd.concat([df, date_df], axis=1)
+        return df
+
+    df_2 = split_dates(df, "Date")
+    final_df = pd.concat([df_2, df_1], axis=1)
+
+    m1 = LR.predict(final_df)
+    m2 = KNN.predict(final_df)
+    m3 = XGB.predict(final_df)
