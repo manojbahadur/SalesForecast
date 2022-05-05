@@ -4,14 +4,23 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+
 {% endblock stylesheets %}
 
 {% block content %}
 
-<p>Hi {{dat}}</p>
-<p>Hi {{sto}}</p>
-<p>Hi {{dep}}</p>
-<p>Hi {{ty}}</p>
+<py-script>
+from sample import test
+a = Element.select('d-id1')
+data = test()
+wmae1 = data['wmae1']
+wmae2 = data['wmae2']
+wmae3 = data['wmae3']
+pyscript.write('wmae1', f'WMAE : {a}')
+pyscript.write('wmae2', f'WMAE : {wmae2}')
+pyscript.write('wmae3', f'WMAE : {wmae3}')
+</py-script>
 <h2>
     Date: <span id="d-id1"></span><br>
     Store: <span id="s-id2"></span><br>
@@ -30,7 +39,7 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>WMAE : ***</h1>
+                        <h1 id="wmae1"></h1>
                         <br><br>
                         <h1>ACCURACY : ***</h1>
                     </div>
@@ -50,7 +59,7 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>WMAE : ***</h1>
+                        <h1 id="wmae2"></h1>
                         <br><br>
                         <h1>ACCURACY : ***</h1>
                     </div>
@@ -70,7 +79,7 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>WMAE :{{d}}</h1>
+                        <h1 id="wmae3"></h1>
                         <br><br>
                         <h1>ACCURACY : ***</h1>
                     </div>
@@ -97,7 +106,7 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-     
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js"></script>
