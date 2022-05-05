@@ -144,6 +144,17 @@ def range(self):
     html_template = loader.get_template('home/range.html')
     return HttpResponse(html_template.render())
 
+
+def final(request):
+    dat=request.GET['date_range']
+    sto=request.GET('store')
+    dep=request.GET('department')
+    ty=request.GET('type')
+    render(request, 'final.html', {'date_range': dat},{'store':sto},{'department':dep},{'type':ty})
+
+
+    html_template = loader.get_template('home/final.html')
+    return HttpResponse(html_template.render())
 def process():
 
     path=os.getcwd()

@@ -1,94 +1,48 @@
+{% extends "layouts/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% block title %} Dashboard {% endblock %}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1", charset="UTF-8">
-    <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
-	<title>Sales Forecasting Dashboard</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href="/static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
-    <link href="/static/assets/css/nucleo-icons.css" rel="stylesheet" />
-	<style type="text/css">
-		body {
-  			background: #222;
-  			font-family: Avenir, Helvetica, sans-serif;
-		}
-		.heading{
-			position: fixed;
-			width :100%;
-            font-style: normal;
-            padding: 5px 450px 450px;
-            font-size: 25px;
-			color: white;
-            top: 30px;
-            left: 95px;
-            text-align: center;
-		}
-    </style>
-</head>
-<body>
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+
 
 <div class="heading">
     <h3>Date Range</h3>
     <br>
     <h4>
-    <form action="final.html" method="post">
+    <form method="get" action="{ % url 'formf' %}">
         {% csrf_token %}
         <label>Enter the Date Range for the forecast</label><br>
         <p>Date format is (dd/mm/yyyy)</p>
         <input type="date" id="id1" name="date_range">
 		<br><br>
+        {% csrf_token %}
         <label>Enter the store </label><br>
         <input id="id2" name="store">
 		<br><br>
+        {% csrf_token %}
         <label>Enter the department </label><br>
         <input id="id3" name="department">
-		<br><br><label>Enter the store type </label><br>
+		<br><br>
+        {% csrf_token %}
+        <label>Enter the store type </label><br>
         <p>(Type A=1, B=2, C=3)</p>
         <input id="id4" name="type">
 		<br><br>
-		<input type="submit" onclick="handleSubmit()" class="btn btn-fill btn-primary btn-round">
+		<a href="/final.html">
+            <button type="submit" onclick="handleSubmit()" class="btn btn-fill btn-primary btn-round">SUBMIT</a>
 
     </form>
     </h4>
 </div>
 
-<div class="sidebar">
-    <div class="sidebar-wrapper">
-        <div class="logo">
-          <a target="_blank" rel="sponsored noopener noreferrer" class="simple-text logo-mini">
-            ML
-          </a>
-          <a target="_blank" rel="sponsored noopener noreferrer"
-              class="simple-text logo-normal">
-            Sales Forecast
-          </a>
-        </div>
-        <ul class="nav">
-            <li>
-              <a href="/">
-                <i class="tim-icons icon-chart-pie-36"></i>
-                <p>Dashboard</p>
-              </a>
-            </li>
-            <li class="active">
-              <a href="/range/">
-                <i class="tim-icons icon-calendar-60"></i>
-                <p>Date Range</p>
-              </a>
-            </li>
-            <li>
-            <a href="{% url 'logout' %}" >
-              <i class="tim-icons icon-button-power"></i>
-              <p>Logout</p>
-            </a>
-            </li>
+{% endblock content %}
 
-        </ul>
-    </div>
-</div>
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
 
 <script type="text/javascript">
     function handleSubmit () {
@@ -119,6 +73,4 @@
         <a href="final.html"><button class="btn btn-fill btn-primary btn-round" style="top: 450px;left: 100px">Submit</button></a>
     </div>
 </div>-->
-
-</body>
-</html>
+{% endblock javascripts %}
