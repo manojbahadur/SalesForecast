@@ -9,24 +9,6 @@
 {% endblock stylesheets %}
 
 {% block content %}
-
-<py-script>
-from sample import test
-a = Element.select('d-id1')
-data = test()
-wmae1 = data['wmae1']
-wmae2 = data['wmae2']
-wmae3 = data['wmae3']
-pyscript.write('wmae1', f'WMAE : {a}')
-pyscript.write('wmae2', f'WMAE : {wmae2}')
-pyscript.write('wmae3', f'WMAE : {wmae3}')
-</py-script>
-<h2>
-    Date: <span id="d-id1"></span><br>
-    Store: <span id="s-id2"></span><br>
-    Department: <span id="dt-id3"></span><br>
-    Store Type: <span id="st-id4"></span><br>
-</h2>
   
     <div class="row" >
       <div class="col-sm-4">
@@ -39,7 +21,7 @@ pyscript.write('wmae3', f'WMAE : {wmae3}')
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1 id="wmae1"></h1>
+                        <h1>Wmae1: {{wmae1|safe}}</h1>
                         <br><br>
                         <h1>ACCURACY : ***</h1>
                     </div>
@@ -59,7 +41,7 @@ pyscript.write('wmae3', f'WMAE : {wmae3}')
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1 id="wmae2"></h1>
+                        <h1 id>Wmae2:{{wmae2|safe}}</h1>
                         <br><br>
                         <h1>ACCURACY : ***</h1>
                     </div>
@@ -79,7 +61,7 @@ pyscript.write('wmae3', f'WMAE : {wmae3}')
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1 id="wmae3"></h1>
+                        <h1>Wmae3:{{wmae3|safe}}</h1>
                         <br><br>
                         <h1>ACCURACY : ***</h1>
                     </div>
@@ -106,7 +88,7 @@ pyscript.write('wmae3', f'WMAE : {wmae3}')
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js"></script>
@@ -117,43 +99,18 @@ pyscript.write('wmae3', f'WMAE : {wmae3}')
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-    <script type="text/javascript">
-        window.addEventListener('load', () => {
-
-    // Via Query parameters - GET
-    /* const params = (new URL(document.location)).searchParams;
-    const name = params.get('name');
-    const surname = params.get('surname'); */
-
-    // Via local Storage
-    /* const name = localStorage.getItem('NAME');
-    const surname = localStorage.getItem('SURNAME'); */
-
-
-    const date = sessionStorage.getItem('Date');
-    const store = sessionStorage.getItem('Store')
-    const department = sessionStorage.getItem('Department');
-    const storetype = sessionStorage.getItem('Store Type');
-
-    document.getElementById('d-id1').innerHTML = date;
-    document.getElementById('s-id2').innerHTML = store;
-    document.getElementById('dt-id3').innerHTML = department;
-    document.getElementById('st-id4').innerHTML = storetype;
-
-})
-    </script>
 
 
    <script type="text/javascript">
       let ctx5 = document.getElementById("sample_chart").getContext('2d');
         let pie_chart2 = new Chart(ctx5, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: ["2010", "2011", "2012"],
                 datasets: [{
                 label: "Sales",
                 backgroundColor: ["#3e95cd", "#A70EC2","#3cba9f"],
-                data: [100,200,300]
+                data: {{bar_data|safe}}
                 }]
             },
             options: {

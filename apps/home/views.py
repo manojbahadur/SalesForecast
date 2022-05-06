@@ -140,21 +140,35 @@ def dataVisualization():
     
     return context
 
-def range(self):
+def range(request):
+    context = {}
     html_template = loader.get_template('home/range.html')
-    return HttpResponse(html_template.render())
-
+    return HttpResponse(html_template.render(context,request))
 
 def final(request):
-    dat=request.GET['date_range']
-    sto=request.GET('store')
-    dep=request.GET('department')
-    ty=request.GET('type')
-    render(request, 'final.html', {'date_range': dat},{'store':sto},{'department':dep},{'type':ty})
+   
+    print("final..........",request.POST)
+    date = request.POST.get('date_range')
+    store = request.POST.get('store')
+    dept = request.POST.get('department')
+    store_type = request.POST.get('type')
 
+    print(date)
+    print(store)
+    print(dept)
+    print(store_type)
 
+    context = {
+        "wmae1":1,
+        "wmae2": 2,
+        "wmae3": 3,
+        "wmae4": 4,
+        "bar_data":[10,20,30]
+        }
     html_template = loader.get_template('home/final.html')
-    return HttpResponse(html_template.render())
+    return HttpResponse(html_template.render(context,request))
+
+
 def process():
 
     path=os.getcwd()
