@@ -21,11 +21,11 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>Wmae1: {{wmae1|safe}}</h1>
+                        <h1>WMAE: {{wmae_lr|safe}}</h1>
                         <br><br>
-                        <h1>ACCURACY : ***</h1>
+                        <h1>PREDICTION : {{lr}}</h1>
                     </div>
-                    <h4 style="text-align:center">Rank : 3</h4>
+                    <br><h4 style="text-align:center">Rank : 3</h4>
                 </div>
             </div>
           </div>
@@ -41,11 +41,11 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1 id>Wmae2:{{wmae2|safe}}</h1>
+                        <h1 id>WMAE:{{wmae_xgb|safe}}</h1>
                         <br><br>
-                        <h1>ACCURACY : ***</h1>
+                        <h1>PREDICTION : {{xgb}}</h1>
                     </div>
-                    <h4 style="text-align:center">Rank : 1</h4>
+                    <br><h4 style="text-align:center">Rank : 1</h4>
                 </div>
             </div>
           </div>
@@ -61,11 +61,11 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>Wmae3:{{wmae3|safe}}</h1>
+                        <h1>WMAE:{{wmae_knn|safe}}</h1>
                         <br><br>
-                        <h1>ACCURACY : ***</h1>
+                        <h1>PREDICTION : {{knn}}</h1>
                     </div>
-                    <h4 style="text-align:center">Rank : 2</h4>
+                    <br><h4 style="text-align:center">Rank : 2</h4>
                 </div>
             </div>
           </div>
@@ -108,9 +108,11 @@
             data: {
                 labels: ["2010", "2011", "2012"],
                 datasets: [{
+
+                data: {{bar_data|safe}}
                 label: "Sales",
                 backgroundColor: ["#3e95cd", "#A70EC2","#3cba9f"],
-                data: {{bar_data|safe}}
+
                 }]
             },
             options: {
