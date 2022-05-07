@@ -1,6 +1,4 @@
-# -*- encoding: utf-8 -*-
 import os
-from datetime import datetime
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,8 +6,8 @@ from django.template import loader
 from django.urls import reverse
 from datetime import datetime
 import pandas as pd
-import numpy as np
 import pickle
+import datetime
 from datetime import timedelta
 import xgboost
 from sklearn import preprocessing
@@ -181,18 +179,20 @@ def final(request):
 
     df_1 = pd.DataFrame(mean_vals).transpose()
    
-    print("final..........",request.POST)
+    #print("final..........",request.POST)
     date = request.POST.get('date_range')
     store = request.POST.get('store')
     dept = request.POST.get('department')
     store_type = request.POST.get('type')
-
+    str(date)
+    #print("date.........",date)
+    #date = datetime.datetime.strptime(str(date), '%d/%m/%y')
     user = {'Store': store,
             'Dept': dept,
             'Type': store_type,
             'Date': date }
     df = pd.DataFrame(user,index=[0])
-    df['Date'] = pd.to_datetime(df.Date, format='%Y-%m-%d')
+    df['Date'] = pd.to_datetime(df.Date, format='%d/%m/%y')
 
     '''print(date)
     print(store)
@@ -251,24 +251,8 @@ def final(request):
     m2 = KNN.predict(final_df)
     m3 = XGB.predict(final_df)
 
-
-    '''nd_df_1=pd.DataFrame(m1)
-    nd_df_2=pd.DataFrame(m2)
-    nd_df_3=pd.DataFrame(m3)
-
-    bar_df=nd_df_1
-    bar_df.append(nd_df_2)
-    bar_df.append(nd_df_3)'''
-
-    data=[]
-    data.append(m1)
-    data.append(m2)
-    data.append(m3)
-
-    data_2=pd.DataFrame([m1,m2,m3])
-    json_data = data_2.reset_index().to_json(orient='records');
-    data_table = [];
-    data_table = json.loads(json_data);
+    data=[int(m1),int(m2),int(m3)]
+    #print("table data.....",data)
 
     context = {
         "wmae_xgb":wmae_list.iloc[0][1],
@@ -277,14 +261,13 @@ def final(request):
         "lr":m1,
         "knn":m2,
         "xgb":m3,
-        "bar_data":data_table
+        "bar_data": data
         }
     html_template = loader.get_template('home/final.html')
     return HttpResponse(html_template.render(context,request))
 
 
-def process():
-
+'''def process():
     path=os.getcwd()
     wmae_list = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/wmae_list.pkl")),'rb')
     mean_vals = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/mean_vals.pkl")),'rb')
@@ -344,4 +327,4 @@ def process():
 
     m1 = LR.predict(final_df)
     m2 = KNN.predict(final_df)
-    m3 = XGB.predict(final_df)
+    m3 = XGB.predict(final_df)'''
