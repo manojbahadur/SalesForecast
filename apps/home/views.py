@@ -253,14 +253,14 @@ def final(request):
 
     data=[int(m1),int(m2),int(m3)]
     #print("table data.....",data)
-
+    
     context = {
-        "wmae_xgb":wmae_list.iloc[0][1],
-        "wmae_knn":wmae_list.iloc[2][1],
-        "wmae_lr":wmae_list.iloc[3][1],
-        "lr":m1,
-        "knn":m2,
-        "xgb":m3,
+        "wmae_xgb": "{:.2f}".format(wmae_list.iloc[0][1]),
+        "wmae_knn": "{:.2f}".format(wmae_list.iloc[2][1]),
+        "wmae_lr": "{:.2f}".format(wmae_list.iloc[3][1]),
+        "lr": int(m1),
+        "knn": int(m2),
+        "xgb": int(m3),
         "bar_data": data
         }
     html_template = loader.get_template('home/final.html')

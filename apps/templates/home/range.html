@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<div class="row" >
+<div class="row justify-content-center" >
     <div class="col-sm-4" >
       <div class="card card-chart">
         <div class="card-header">
@@ -18,7 +18,7 @@
             <center><form action = "final" method = "POST">
                 {% csrf_token %}
                 <label>Enter the Date Range for the forecast</label><br>
-                <p>Date format is (dd/mm/yyyy)</p>
+                <p>Date format is (dd/mm/yy)</p>
                 <input id="date_range" name="date_range">
                 <br><br>
                
