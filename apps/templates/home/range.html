@@ -49,5 +49,20 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script type="text/javascript">
+    function handleSubmit () {
+    const date = document.getElementById('id1').value;
+    const store = document.getElementById('id2').value;
+    const department = document.getElementById('id3').value;
+    const storetype = document.getElementById('id4').value;
 
+
+    sessionStorage.setItem("Date", date);
+    sessionStorage.setItem("Store", store);
+    sessionStorage.setItem("Department", department);
+    sessionStorage.setItem("Store Type", storetype);
+
+    return;
+}
+</script>
 {% endblock javascripts %}

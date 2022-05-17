@@ -99,7 +99,31 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load', () => {
 
+    // Via Query parameters - GET
+    /* const params = (new URL(document.location)).searchParams;
+    const name = params.get('name');
+    const surname = params.get('surname'); */
+
+    // Via local Storage
+    /* const name = localStorage.getItem('NAME');
+    const surname = localStorage.getItem('SURNAME'); */
+
+
+    const date = sessionStorage.getItem('Date');
+    const store = sessionStorage.getItem('Store')
+    const department = sessionStorage.getItem('Department');
+    const storetype = sessionStorage.getItem('Store Type');
+
+    document.getElementById('d-id1').innerHTML = date;
+    document.getElementById('s-id2').innerHTML = store;
+    document.getElementById('dt-id3').innerHTML = department;
+    document.getElementById('st-id4').innerHTML = storetype;
+
+})
+    </script>
 
    <script type="text/javascript">
       let ctx5 = document.getElementById("sample_chart").getContext('2d');
