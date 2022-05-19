@@ -6,7 +6,6 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-  
     <div class="row">
       <div class="col-12">
         <div class="card card-chart">
@@ -21,11 +20,11 @@
                     <input type="radio" name="options" onclick="line_chart_2010();" checked >
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="line_chart_2010();">2010</span>
                   </label>
-                  <label class="btn btn-sm btn-primary btn-simple" >
+                  <label class="btn btn-sm btn-primary btn-simple">
                     <input type="radio" name="options">
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="line_chart_2011();">2011</span>
                   </label>
-                  <label class="btn btn-sm btn-primary btn-simple" >
+                  <label class="btn btn-sm btn-primary btn-simple">
                     <input type="radio" name="options">
                     <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="line_chart_2012();">2012</span>
                   </label>
@@ -93,7 +92,11 @@
     <div class="row">
         <div class=col-12>
             <div style="text-align: center;">
-                <a href="/range.html"><button class="btn btn-fill btn-primary btn-round" style="top: 20px">Proceed</button></a>
+              <li class="{% if 'range' in segment %} active {% endif %}">
+                <a href="{% url 'range' %}">
+                  <button class="btn btn-fill btn-primary btn-round" style="top: 20px">Proceed</button>
+                </a>
+              </li>
             </div>
         </div>
     </div>

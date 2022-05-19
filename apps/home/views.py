@@ -1,6 +1,4 @@
-# -*- encoding: utf-8 -*-
 import os
-from datetime import datetime
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,10 +6,14 @@ from django.template import loader
 from django.urls import reverse
 from datetime import datetime
 import pandas as pd
-import numpy as np
 import pickle
+import datetime
 from datetime import timedelta
-
+import xgboost
+from sklearn import preprocessing
+from numpy import int64
+from numpy import int8
+import json
 
 @login_required(login_url="/login/")
 def index(request):
@@ -140,23 +142,132 @@ def dataVisualization():
     
     return context
 
-def range(self):
+def range(request):
+    context = {}
     html_template = loader.get_template('home/range.html')
-    return HttpResponse(html_template.render())
-
+    return HttpResponse(html_template.render(context,request))
 
 def final(request):
-    dat=request.GET['date_range']
-    sto=request.GET('store')
-    dep=request.GET('department')
-    ty=request.GET('type')
-    render(request, 'final.html', {'date_range': dat},{'store':sto},{'department':dep},{'type':ty})
 
+    path = os.getcwd()
 
+    with open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/wmae_list.pkl"),'rb') as f:
+        # load using pickle de-serializer
+        wmae_list = pickle.load(f)
+
+    with open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/mean_vals.pkl"),'rb') as g:
+        # load using pickle de-serializer
+        mean_vals = pickle.load(g)
+
+    with open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/XGBRegressor.pkl"),'rb') as h:
+        # load using pickle de-serializer
+        XGB = pickle.load(h)
+
+    with open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/LinearRegression.pkl"),'rb') as i:
+        # load using pickle de-serializer
+        LR = pickle.load(i)
+
+    with open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/KNeighborsRegressor.pkl"),'rb') as j:
+        # load using pickle de-serializer
+        KNN = pickle.load(j)
+
+    #wmae_list = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/wmae_list.pkl")),'rb')
+    #mean_vals = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/mean_vals.pkl")),'rb')
+    #XGB = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)), "hope/apps/templates/pickles/XGBRegressor.pkl")),'rb')
+    #LR = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/LinearRegression.pkl")), 'rb')
+    #KNN = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/KNeighborsRegressor.pkl")), 'rb')
+
+    df_1 = pd.DataFrame(mean_vals).transpose()
+   
+    #print("final..........",request.POST)
+    date = request.POST.get('date_range')
+    store = request.POST.get('store')
+    dept = request.POST.get('department')
+    store_type = request.POST.get('type')
+    str(date)
+    #print("date.........",date)
+    #date = datetime.datetime.strptime(str(date), '%d/%m/%y')
+    user = {'Store': store,
+            'Dept': dept,
+            'Type': store_type,
+            'Date': date }
+    df = pd.DataFrame(user,index=[0])
+    df['Date'] = pd.to_datetime(df.Date, format='%d/%m/%y')
+
+    '''print(date)
+    print(store)
+    print(dept)
+    print(store_type)'''
+
+    def nearest_fri(df, date_column):
+        month_delta = 4
+        dayofweek = df[date_column].dt.dayofweek
+        if (int(dayofweek != month_delta)):
+            x = month_delta - dayofweek
+            # print("HI THIS IS X VAL",x[0])
+            y = x[0]
+            y = int(y)
+            y = abs(y)
+            # print(y)
+            if (int(dayofweek > month_delta)):
+                dayofweek - y
+                df["Date"] = df["Date"] - timedelta(days=y)
+            elif (int(dayofweek < month_delta)):
+                dayofweek + y
+                df["Date"] = df["Date"] + timedelta(days=y)
+
+        return df
+
+    df_test = nearest_fri(df, "Date")
+    df = df_test
+
+    def split_dates(df, date_column):
+        date_df = pd.DataFrame({"year": df[date_column].dt.year,
+                                "month": df[date_column].dt.month,
+                                "day": df[date_column].dt.day,
+                                "dayofyear": df[date_column].dt.dayofyear,
+                                "week": df[date_column].dt.week,
+                                "weekofyear": df[date_column].dt.weekofyear,
+                                "dayofweek": df[date_column].dt.dayofweek,
+                                "weekday": df[date_column].dt.weekday,
+                                "quarter": df[date_column].dt.quarter,
+                                })
+        df = df.drop(date_column, axis=1)
+        df = pd.concat([df, date_df], axis=1)
+        return df
+
+    df_2 = split_dates(df, "Date")
+    final_df = pd.concat([df_2, df_1], axis=1)
+
+    '''print("------------------")
+    print(final_df.dtypes)'''
+
+    lbl = preprocessing.LabelEncoder()
+    final_df['Store'] = lbl.fit_transform(final_df['Store'].astype(int64))
+    final_df['Dept'] = lbl.fit_transform(final_df['Dept'].astype(int64))
+    final_df['Type'] = lbl.fit_transform(final_df['Type'].astype(int8))
+
+    m1 = LR.predict(final_df)
+    m2 = KNN.predict(final_df)
+    m3 = XGB.predict(final_df)
+
+    data=[int(m1),int(m2),int(m3)]
+    #print("table data.....",data)
+    
+    context = {
+        "wmae_xgb": "{:.2f}".format(wmae_list.iloc[0][1]),
+        "wmae_knn": "{:.2f}".format(wmae_list.iloc[2][1]),
+        "wmae_lr": "{:.2f}".format(wmae_list.iloc[3][1]),
+        "lr": int(m1),
+        "knn": int(m2),
+        "xgb": int(m3),
+        "bar_data": data
+        }
     html_template = loader.get_template('home/final.html')
-    return HttpResponse(html_template.render())
-def process():
+    return HttpResponse(html_template.render(context,request))
 
+
+'''def process():
     path=os.getcwd()
     wmae_list = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/wmae_list.pkl")),'rb')
     mean_vals = pickle.load(open(os.path.join(os.path.abspath(os.path.join(path, os.pardir)),"hope/apps/templates/pickles/mean_vals.pkl")),'rb')
@@ -216,4 +327,4 @@ def process():
 
     m1 = LR.predict(final_df)
     m2 = KNN.predict(final_df)
-    m3 = XGB.predict(final_df)
+    m3 = XGB.predict(final_df)'''

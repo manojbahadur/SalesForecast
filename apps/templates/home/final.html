@@ -4,21 +4,17 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+
 {% endblock stylesheets %}
 
 {% block content %}
-
-<p>Hi {{dat}}</p>
-<p>Hi {{sto}}</p>
-<p>Hi {{dep}}</p>
-<p>Hi {{ty}}</p>
-<h2>
+ <h2>
     Date: <span id="d-id1"></span><br>
     Store: <span id="s-id2"></span><br>
     Department: <span id="dt-id3"></span><br>
     Store Type: <span id="st-id4"></span><br>
 </h2>
-  
     <div class="row" >
       <div class="col-sm-4">
         <div class="card card-1">
@@ -30,11 +26,11 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>WMAE : ***</h1>
+                        <h2>WMAE: {{wmae_lr|safe}}</h2>
                         <br><br>
-                        <h1>ACCURACY : ***</h1>
+                        <h2>PREDICTION : {{lr|safe}}</h2>
                     </div>
-                    <h4 style="text-align:center">Rank : 3</h4>
+                    <br><h4 style="text-align:center">Rank : 3</h4>
                 </div>
             </div>
           </div>
@@ -50,11 +46,11 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>WMAE : ***</h1>
+                        <h2>WMAE: {{wmae_xgb|safe}}</h2>
                         <br><br>
-                        <h1>ACCURACY : ***</h1>
+                        <h2>PREDICTION : {{xgb|safe}}</h2>
                     </div>
-                    <h4 style="text-align:center">Rank : 1</h4>
+                    <br><h4 style="text-align:center">Rank : 1</h4>
                 </div>
             </div>
           </div>
@@ -70,11 +66,11 @@
                 <div class="lm-item lm-item-1">
                     
                     <div class="lm-item-body">
-                        <h1>WMAE :{{d}}</h1>
+                        <h2>WMAE: {{wmae_knn|safe}}</h2>
                         <br><br>
-                        <h1>ACCURACY : ***</h1>
+                        <h2>PREDICTION : {{knn|safe}}</h2>
                     </div>
-                    <h4 style="text-align:center">Rank : 2</h4>
+                    <br><h4 style="text-align:center">Rank : 2</h4>
                 </div>
             </div>
           </div>
@@ -97,7 +93,7 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-     
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js"></script>
@@ -134,24 +130,31 @@
 })
     </script>
 
-
    <script type="text/javascript">
       let ctx5 = document.getElementById("sample_chart").getContext('2d');
         let pie_chart2 = new Chart(ctx5, {
-            type: 'line',
+            type: 'bar',
             data: {
-                labels: ["2010", "2011", "2012"],
+                labels: ["LR","KNN","XGB"],
                 datasets: [{
-                label: "Sales",
+                data: {{bar_data|safe}},
+                label: "WMAE",
                 backgroundColor: ["#3e95cd", "#A70EC2","#3cba9f"],
-                data: [100,200,300]
                 }]
             },
             options: {
                 title: {
                 display: true,
-                text: 'Total yearly Sales'
-                }
+                text: 'PREDICTED SALES'
+                },
+                scales: {
+                  yAxes: [{
+                          display: true,
+                          ticks: {
+                              beginAtZero: false
+                          }
+                      }]
+              }
             }
         });
 

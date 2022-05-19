@@ -1,49 +1,54 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} Range {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
-{% endblock stylesheets %}
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
+<div class="row justify-content-center" >
+    <div class="col-sm-4" >
+      <div class="card card-chart">
+        <div class="card-header">
+          <h4 class="card-title" >Date Range</h4>
+        </div>
+        <div class="card-body">
+          <div class="container ">
+            <center><form action = "final" method = "POST">
+                {% csrf_token %}
+                <label>Enter the Date Range for the forecast</label><br>
+                <p>Date format is (dd/mm/yy)</p>
+                <input id="date_range" name="date_range">
+                <br><br>
+               
+                <label>Enter the store </label><br>
+                <input id="store" name="store">
+                <br><br>
+               
+                <label>Enter the department </label><br>
+                <input id="department" name="department">
+                <br><br>
+                
+                <label>Enter the store type </label><br>
+                <p>(Type A=1, B=2, C=3)</p>
+                <input id="type" name="type">
+                <br><br>
+                <li class="{% if 'final' in segment %} active {% endif %}">
+                <input type="submit" href="{% url 'final' %}" class="btn btn-fill btn-primary btn-round" name="Submit">
+                </li>
+            </form></center>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="heading">
-    <h3>Date Range</h3>
-    <br>
-    <h4>
-    <form method="get" action="{ % url 'formf' %}">
-        {% csrf_token %}
-        <label>Enter the Date Range for the forecast</label><br>
-        <p>Date format is (dd/mm/yyyy)</p>
-        <input type="date" id="id1" name="date_range">
-		<br><br>
-        {% csrf_token %}
-        <label>Enter the store </label><br>
-        <input id="id2" name="store">
-		<br><br>
-        {% csrf_token %}
-        <label>Enter the department </label><br>
-        <input id="id3" name="department">
-		<br><br>
-        {% csrf_token %}
-        <label>Enter the store type </label><br>
-        <p>(Type A=1, B=2, C=3)</p>
-        <input id="id4" name="type">
-		<br><br>
-		<a href="/final.html">
-            <button type="submit" onclick="handleSubmit()" class="btn btn-fill btn-primary btn-round">SUBMIT</a>
-
-    </form>
-    </h4>
-</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
 <script type="text/javascript">
     function handleSubmit () {
     const date = document.getElementById('id1').value;
@@ -60,17 +65,4 @@
     return;
 }
 </script>
-<!--<div style="text-align: center;">
-    <form action = "" method = "get">
-        <label for="your_name">Your name: </label>
-        <input id="your_name" type="text" name="your_name">
-        <input type="submit" value="OK">
-    </form>
-
-</div>
-<div>
-    <div style="text-align: center;">
-        <a href="final.html"><button class="btn btn-fill btn-primary btn-round" style="top: 450px;left: 100px">Submit</button></a>
-    </div>
-</div>-->
 {% endblock javascripts %}
