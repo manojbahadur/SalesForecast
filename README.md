@@ -1,2 +1,2 @@
-# hope
-Wallmart Sales forecasting using machine learning
+# Final year College Project
+Wallmart data Sales forecasting using machine learning
